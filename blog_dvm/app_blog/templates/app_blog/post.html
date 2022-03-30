@@ -1,0 +1,66 @@
+{% extends 'app_blog/components/base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static "app_blog/assets/img/eminem.jpg" %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1 class="post-heading">Drop your lines here!</h1>
+
+                <div class="post-heading">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <h1>                           
+                            {{ postform.title.label }}
+                            {{ postform.title }}
+                        </h1>
+
+                        <p style="font-size: 30px" class="post-heading">
+                            {{ postform.subtitle.label }}
+                            {{ postform.subtitle }}
+                        </p>
+
+                        <span class="meta">
+                        Posted by {{ postform.author }} on {{ date }}
+                        </span>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">        
+                    <h2 style="font-size: 30px" class="post-heading">{{ postform.heading.label }} <div></div> {{ postform.heading }}</h2>
+                    <h1 style="font-size: 30px" class="post-heading">{{ postform.post.label }} <div></div> {{ postform.post }}</h1>
+
+                
+                <!-- Submit Button-->                
+                <input class="btn btn-primary text-uppercase" id="submitButton" type="submit" value="Post">
+                
+            </form> 
+            </div>
+        </div>
+    </div>
+</article>
+
+{% endblock main_content %}
+
+
