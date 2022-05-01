@@ -16,8 +16,8 @@ El proyecto consiste en la creacion de un blog, utilizando el framework de desar
 8. Utilizar la aplicación libremente
 
 ### DEPENDENCIAS UTILIZADAS
-django
-summernote - La documentación oficial del editor de texto summernote se encuentra en el siguiente link:
+- django
+- summernote - La documentación oficial del editor de texto summernote se encuentra en el siguiente link:
 https://github.com/summernote/django-summernote
 
 ### MODELOS 
