@@ -1,4 +1,4 @@
-# Entrega1-Velasco
+# Sounds - Music blog
 Trabajo final de curso de python en CoderHouse
 Link a video mostrando funcionamiento de página: https://drive.google.com/file/d/12pV8F_w606QaZglMNX0q-P4pEaKQ6Shj/view
 
