@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'app_blog'),
+ #                   os.path.join(BASE_DIR, 'app_users'),
+    
+#]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -37,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_blog'
+    'app_blog',
+    'app_users',
+    'django_summernote',
+    'app_messages'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +62,11 @@ ROOT_URLCONF = 'blog_dvm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r'.\blog_dvm\app_blog\templates\app_blog'],
+        'DIRS': [r'.\app_blog\templates\app_blog',
+                r'.\app_users\templates\app_users', 
+                r'.\app_messages\templates\app_messages', 
+                r'.\blog_dvm\templates\components'
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,7 +129,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "blog_dvm/static",
+
+]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# URL de LOGIN 
+LOGIN_URL = 'login'
+
+# URL to media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

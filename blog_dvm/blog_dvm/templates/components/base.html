@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'head.html' %}
+{% load static %}
+
+    <body> 
+        
+        <!-- Navigation-->
+        {% include 'navbar.html' %}
+
+        <!-- Page Header-->
+        {% block header %}{% endblock header %}
+
+        <!-- Main Content-->
+        {% block main_content %}{% endblock main_content %}
+
+        <!-- Footer and Core JS-->
+        {% include 'footer.html' %}
+        {% include 'corejs.html' %}
+        
+    </body>
+
+</html>

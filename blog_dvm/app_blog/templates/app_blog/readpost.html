@@ -1,4 +1,4 @@
-{% extends 'app_blog/components/base.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -7,7 +7,7 @@
 
 {% block header %}
 
-<header class="masthead" style="background-image: url('{% static 'app_blog/assets/img/dsotm.jpg' %}')">
+<header class="masthead" style="background-image: url('{% static 'assets/img/dsotm.jpg' %}')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -34,9 +34,27 @@
             
             <div class="post-preview">
                 
-                    <h2 class="post-title">{{ post.title }}</h2>
-                    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-                    <p class="post">{{post.post}}</p>
+                <div class="row" style="align-items: center">
+                    <div class="col-8">
+                        
+                        <h2 class="post-title">{{ post.title }}</h2>
+                        <h3 style="font-style: italic;" class="post-subtitle">{{ post.subtitle }}</h3>
+                        
+                    </div>     
+                    <div class="col-4">
+                        {% if post.image %}
+                            <img class="img-rounded" src="{{ post.image.url }}" width="150px">  
+                        {% endif %}
+                    </div>     
+                </div> 
+                
+                    <style>
+                        img {
+                            border-radius: 0%;
+                            margin-bottom: 0px;
+                        }
+                        </style>
+                    <p class="post">{{post.post|safe}}</p>
                 
                 <p class="post-meta">
                     Posted by {{post.author}} on {{ post.date_of_publication }}

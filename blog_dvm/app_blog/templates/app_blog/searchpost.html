@@ -1,4 +1,4 @@
-{% extends 'app_blog/components/base.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -7,7 +7,7 @@
 
 {% block header %}
 
-<header class="masthead" style="background-image: url('{% static 'app_blog/assets/img/dsotm.jpg' %}')">
+<header class="masthead" style="background-image: url('{% static 'assets/img/dsotm.jpg' %}')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -33,26 +33,35 @@
            
             <!-- Post preview-->
             {% if posts %}
-            {% for post in posts %}
+                {% for post in posts %}
 
-            <div class="post-preview">
-                    
-                    <h2 class="post-title"><a href="{% url 'readpost' post.post %}">{{ post.title }}</a></h2>
-                    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+                <div class="post-preview">
+                    <div class="row" style="align-items: center">
+                         <div class="col-8">
+                             
+                             <h2 class="post-title"><a href="{% url 'readpost' post.id %}">{{ post.title }}</a></h2>
+                             <h3 class="post-subtitle" style="font-style: italic;">{{ post.subtitle }}</h3>
+                             
+                             <div class="post-preview">
+                                 <p class="post-meta" style="margin-bottom: 0;">
+                                     Posted by {{post.author}} on {{ post.date_of_publication }}
+                                 </p>
+                             </div>
+                         </div>     
+                         <div class="col-4">
+                             {% if post.image %}
+                                 <img class="img-rounded" src="{{ post.image.url }}" width="150px">  
+                             {% endif %}
+                         </div>     
+                     </div>     
+                     <!-- Divider-->
+                     <hr class="my-4" / >
+                 </div>
 
-                <p class="post-meta">
-                    Posted by {{post.author}} on {{ post.date_of_publication }}
-                </p>
-            </div>
-
-            
-            <!-- Divider-->
-            <hr class="my-4" />
-
-            {% endfor %}
+                {% endfor %}
 
             {% else %}
-            <h2 class="post-title">There are no posts that match the search criteria</h2>
+                <h2 class="post-title">There are no posts that match the search criteria</h2>
             {% endif %}
 
         </div>

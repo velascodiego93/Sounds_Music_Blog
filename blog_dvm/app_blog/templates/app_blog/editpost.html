@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static "assets/img/eminem.jpg" %}')">
+    <div class="container position-relative px-4 px-lg-5"> 
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 style="font-size: 45px">Writing log</h1>
+                    <span class="subheading">Make your changes below</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">        
+                {% if errors %}
+                    <div class="class alert-danger" role="alert">
+                        <p>The following errors have been found: </p>
+                        {% for error in errors %}
+                            <ul>
+                                <li> {{error}}</li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                    <form enctype="multipart/form-data" action="" method="post" class="form-floating">
+                        <div class="row" style="align-items: center">
+                            
+                            <div class="col-sm" style="align-items: center;">
+                                {% csrf_token %}
+                                <h1>                           
+                                    {{ form.title }}
+                                </h1>
+                                
+                                <p style="font-size: 22px" class="post-heading">
+                                    {{ form.subtitle }}
+                                </p>
+                            </div>
+
+                            <div class="col-sm" style="align-items: center; margin-bottom: 15px; font-size: 15px;">
+                                 
+                                {{ form.image.label_tag}}
+                                {{ form.image }}
+                                <p style="font-weight: lighter;">(Previous cover: {{previous_cover}})</p>       
+                                
+                            </div>
+                        </div>
+                        
+                        {{ form.post }}
+                                            
+                        <div class="post-preview">
+                            <span class="post-meta">
+                                Posted by @{{ request.user }} on {{ date }}
+                            </span>
+                        </div>
+                    
+                        <!-- Submit Button-->           
+                        <input class="btn btn-primary text-uppercase" id="submitButton" type="submit" value="Update post">
+
+                    </form> 
+            </div>
+        </div>
+    </div>
+</article>
+
+{% endblock main_content %}
+
+

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static 'assets/img/message.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 style="font-size: 45px;">@{{request.user}}</h1>
+                    <span class="subheading">@{{receiver}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+        
+            <!-- Message display-->
+            {% if conversation %}
+                {% for message in conversation %}
+                   <div class="row" style="align-items: center">
+                       <div class="col-4">
+                           {% if message.sender == request.user %}
+                               {% if avatar %}
+                                   <img class="img-circle" src="{{ avatar }}" width="75px">
+                               {% else %}
+                                   <img src="{% static "app_users/assets/img/default.jpeg" %}" width="55px">
+                               {% endif %}
+                           {% else %}
+                               {% if avatar_receiver %}
+                                   <img class="img-circle" src="{{ avatar_receiver }}" width="75px">
+                               {% else %}
+                                   <img src="{% static "app_users/assets/img/default.jpeg" %}" width="55px">
+                               {% endif %}
+                           {% endif %}
+                       </div> 
+
+                        <div class="col-8" style="margin-bottom: 0;">
+                            <h4 class="post-subtitle" style="font-size: 15px; margin-bottom: 0;">from @{{ message.sender }} to @{{message.receiver}}:</h4>
+                            <p style="margin: 0;">{{message.message|safe}}</p>
+                            <div class="post-preview">
+                                <span class="post-meta">
+                                    Sent on {{ message.date }}
+                                </span>
+                            </div>
+
+                        </div>     
+                    </div>     
+                    <!-- Divider-->
+                    <hr class="my-4" / >
+                {% endfor %}
+            {% else %}
+                <h2 class="post-title">No messages yet :(</h2>
+            {% endif %}
+                    
+
+        {% if errors %}
+                <div class="class alert-danger" role="alert">
+                    <p>The following errors have been found: </p>
+                    {% for error in errors %}
+                        <ul>
+                            <li> {{error}}</li>
+                        </ul>
+                    {% endfor %}
+                </div>
+        {% endif %}   
+            <!-- Send message -->
+                <form action="" method="post" >
+                    {% csrf_token %}
+                    <div class="d-flex justify-content mb-4">
+
+                        <ul>{{form.message}} <input class="btn btn-primary text-uppercase" style="padding: 0.5rem 0.75rem;" id="submitButton" type="submit" value="Send"></ul>
+ 
+                    </div>   
+                </form>
+          
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+

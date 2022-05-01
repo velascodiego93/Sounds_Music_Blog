@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static "assets/img/MJ.jpg" %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1 style="font-size: 45px">@{{request.user}}</h1>
+                    <span class="subheading">Personal information</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% if not errors %}
+                <p> Modify your personal information as you please.</p>
+                {% endif %}
+                <div class="my-5">
+                    
+                    {% if errors %}
+                        <div class="class alert-danger" role="alert">
+                            <p>The following errors have been found: </p>
+                            {% for error in errors %}
+                                <ul>
+                                    <li> {{error}}</li>
+                                </ul>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                </div>
+                                    
+                    <form enctype="multipart/form-data" action="" method="post" >
+                        {% csrf_token %}
+                        
+                        <div class="form-floating">
+                            {% for field in userform  %}
+                                <ul>{{field.label_tag}}</ul>
+                                <ul>{{field}}</ul>  
+                            {% endfor %}
+                            {% if not request.user.is_superuser %}
+                                <p class="class alert-danger" role="alert"> Note: You don't have permission to change your profile picture. To do this, please contact a site administrator.</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Submit Button-->                        
+                        <input class="btn btn-primary text-uppercase" style="padding: 0.5rem 0.75rem;"id="submitButton" type="submit" value="Update User">
+                        <a class="btn btn-danger" style="padding: 0.5rem 0.75rem;" href="{% url 'delete_user' request.user.id %}" >DELETE USER</a>
+
+                    </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock main_content %}
+
+

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static "app_users/assets/img/studio.jpg" %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1 style="font-size: 45px">@{{request.user}}</h1>
+                    <span class="subheading">Account settings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<main class="mb-4">
+    <div class="container">
+        <div class="row" style="flex-wrap: nowrap;">
+            <div class="col-4" style="align-items: center;">
+<!-- USER INFORMATION -->
+                <div>
+                    {% if request.user.is_authenticated %}
+                        <style>
+                            img {
+                                border-radius: 50%;
+                                margin-bottom: 0px;
+                            }
+                        </style>
+                        {% if avatar %}
+                            <img class="img-circle" src="{{ avatar }}" width="200px">
+                        {% else %}
+                            <img src="{% static "app_users/assets/img/default.jpeg" %}" width="110px" style="margin-bottom: 25px;">
+                        {% endif %}
+
+                    {% endif %}                   
+                    
+                </div>
+
+                <div>
+                    {% for field in userform  %}
+                        <fieldset disabled>
+                            <ul>{{field.label_tag}}</ul>  
+                            <ul style="font-size: 18px;">{{field}}</ul>
+                        </fieldset>
+                    {% endfor %}
+                    <ul>Web Page:</ul> 
+                    <ul style="font-size: 18px;"><a style=" display: inline-block;
+                                                            max-width: 80%;
+                                                            overflow: hidden;
+                                                            text-overflow: ellipsis;
+                                                            white-space: nowrap;"
+                                                            href="{{web_page}}" target="_blank"> {{web_page}} </a></ul>
+
+                    <ul><a class="btn btn-primary" style="padding: 0.5rem 0.75rem;" href="{% url 'update_user' %}" role="button">UPDATE USER</a></ul>
+                </div>
+                <hr class="my-4" />
+                <h1 style="margin: 20px 0; font-size: 20px;">@{{request.user}}'s conversations:</h1>
+                {% if not user_message_dict.items %}
+                    <h2 class="post-title" style="font-size: 15px;">No conversations yet :(</h2>
+                {% endif %}
+                <hr class="my-4" />
+
+<!-- USER'S ACTIVE CONVERSATIONS -->          
+            {% if user_message_dict.items %}
+                {% for user, last_message in user_message_dict.items %}
+                    {% for sub_user, avatar_url in user_avatar_dict.items %}
+                        {% for sub_sub_user, last_message_sender in user_last_message_sender_dict.items %}
+                            {% if sub_user.id == user.id and sub_sub_user.id == user.id %}
+                                <div class="post-preview">
+                                    <div class="row" style="flex-wrap: nowrap;">
+                                        <div class="col-4" style="align-items: center;">
+                                            {% if avatar_url %}
+                                            <img class="img-circle" src="{{ avatar_url }}" width="100px">
+                                            {% else %}
+                                            <img src="{% static "app_users/assets/img/default.jpeg" %}" width="100px" style="margin-bottom: 25px;">
+                                            {% endif %}                                            
+                                        </div>  
+                                        <div class="col-8" style="align-items: center;">
+                                            <h2 class="post-title" style="font-size: 18px; margin-bottom: -32"><a href="{% url 'conversation' user.id %}">@{{ user.username }}</a></h2>
+                                            <p style="margin: 0;"> {{last_message|safe}} </p>
+                                            <p style="margin: 0; font-size: 15px; font-style: italic;"> sent by @{{last_message_sender}} </p>
+                                        </div>  
+
+                                    </div>  
+                                </div>  
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    <hr class="my-4" />   
+                
+                {% endfor %}           
+            {% endif %}
+            
+
+
+
+
+<!-- USER'S POSTS -->   
+            </div>    
+            
+            <div class="col-8">
+                        <h1 style="margin: 30px 0; font-size: 30px;">@{{request.user}}'s posts:</h1>
+                        {% if user_posts %}
+                            {% for post in user_posts %}
+                            <div class="row" style="align-items: center">
+                                <div class="col-9">
+                                    <div class="post-preview">
+                                           <h2 class="post-title"><a href="{% url 'readpost' post.id %}">{{ post.title }}</a></h2>
+                                           <h3 style="font-style: italic;" class="post-subtitle">{{ post.subtitle }}</h3>
+                                    
+                                           <p class="post-meta">
+                                               Posted by {{post.author}} on {{ post.date_of_publication }}
+                                            </p>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    {% if post.image %}
+                                        <img class="img-rounded" src="{{ post.image.url }}" width="150px">  
+                                    {% endif %}
+                                </div>
+                            </div>
+                                <!-- CRUD Buttons-->
+                                <a class="btn btn-outline-primary" style="padding: 0.5rem 0.75rem;" href="{% url 'editpost' post.id %}">EDIT POST</a>
+                                <a class="btn btn-outline-danger" style="padding: 0.5rem 0.75rem;" href="{% url 'deletepost' post.id %}" >DELETE POST</a>
+
+                                <!-- Divider-->
+                                <hr class="my-4" />
+
+                            {% endfor %}
+                        {% else %}
+                            <h2 class="post-title">No posts yet :(</h2>
+                        {% endif %}
+            </div>  
+        </div>
+    </div>
+</main>
+
+{% endblock main_content %}
+
+

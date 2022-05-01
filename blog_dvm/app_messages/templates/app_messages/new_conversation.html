@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static 'assets/img/message.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 style="font-size: 45px;">@{{request.user}}</h1>
+                    <span class="subheading">You've already done the listening, now let the music do the talking!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<div class="container px-4 px-lg-5">
+    <div class="row" style="flex-wrap: nowrap;">
+        <div class="col-4" style="align-items: center;">
+            {% if user_message_dict.items %}
+                {% for user, last_message in user_message_dict.items %}
+                    {% for sub_user, avatar_url in user_avatar_dict.items %}
+                        {% for sub_sub_user, last_message_sender in user_last_message_sender_dict.items %}
+                            {% if sub_user.id == user.id and sub_sub_user.id == user.id %}
+                                <div class="post-preview">
+                                    <div class="row" style="flex-wrap: nowrap;">
+                                        <div class="col-4" style="align-items: center;">
+                                            {% if avatar_url %}
+                                            <img class="img-circle" src="{{ avatar_url }}" width="100px">
+                                            {% else %}
+                                            <img src="{% static "app_users/assets/img/default.jpeg" %}" width="100px" style="margin-bottom: 25px;">
+                                            {% endif %}                                            
+                                        </div>  
+                                        <div class="col-8" style="align-items: center;">
+                                            <h2 class="post-title" style="font-size: 18px; margin-bottom: -32"><a href="{% url 'conversation' user.id %}">@{{ user.username }}</a></h2>
+                                            <p style="margin: 0;"> {{last_message|safe}} </p>
+                                            <p style="margin: 0; font-size: 15px; font-style: italic;"> sent by @{{last_message_sender}} </p>
+                                        </div>  
+
+                                    </div>  
+                                </div>  
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    <hr class="my-4" />   
+                
+                {% endfor %}
+            {% else %}
+            <h2 class="post-title" style="font-size: 15px;">Conversations will display here. Now, start talking!</h2>
+            {% endif %}        
+                
+        </div>
+        
+        
+        
+        <div class="col-8" style="align-items: center;">
+            {% if errors %}
+                <div class="class alert-danger" role="alert">
+                    <p>The following errors have been found: </p>
+                    {% for error in errors %}
+                        <ul>
+                            <li> {{error}}</li>
+                        </ul>
+                    {% endfor %}
+                </div>
+            {% endif %}   
+            <!-- Send message -->
+            <form action="" method="post" >
+                {% csrf_token %}
+                <div class="post-preview">
+
+                    <ul>from @{{request.user}}</ul>
+                    <ul>to @{{form.receiver}}</ul>
+                    <ul>{{form.message}} <input class="btn btn-primary text-uppercase" style="padding: 0.5rem 0.75rem;" id="submitButton" type="submit" value="Send"></ul>
+
+                </div>   
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+

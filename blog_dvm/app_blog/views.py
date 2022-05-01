@@ -1,104 +1,130 @@
-from django.shortcuts import render
+from re import U
+from django.shortcuts import render, redirect
 from app_blog.forms import *
 from app_blog.models import *
+from app_users.models import Avatar
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from app_users.auxiliary import get_avatar_url, get_errors
+from django.views.generic.edit import DeleteView, UpdateView
 
 # Create your views here.
 
-def subscribe (request):
-    if request.method == 'POST':
-        new_subscription_form = SubscriptionForm (request.POST)
-        
-        if new_subscription_form.is_valid():
-            data = new_subscription_form.cleaned_data
-            new_subscription = Suscriptores(data['name'],
-                                data['last_name'],
-                                data['email'])
-
-            new_subscription.save()
-
-        return render (request, 'app_blog/index.html')  
-
-    else:
-        sub_form = SubscriptionForm()
-        return render (request, 'app_blog/subscribe.html',{'subform': sub_form})    
-
-
-
-def create_user (request):
-
-    if request.method == 'POST':
-        new_user_form = UserForm (request.POST)
-        
-
-        if new_user_form.is_valid():
-            data = new_user_form.cleaned_data
-            new_user = Usuario(data['name'],
-                                data['last_name'],
-                                data['username'],
-                                data['email'],
-                                data['occupation'],
-                                data['workplace'])
-
-            new_user.save()
-
-        return render (request, 'app_blog/index.html')  
-
-    else:
-        user_form = UserForm()
-
-    return render (request, 'app_blog/createuser.html',{'userform': user_form})    
-    
-
-
-
 def index (request):
-    posts = Publicacion.objects.all()
+    posts = Publicacion.objects.order_by('-date_of_publication')
     kw_form = KeywordForm()
-    ctx = {'posts': posts, 'kw': kw_form}
+
+    avatar_url = get_avatar_url (request.user)
 
     if request.GET != {}:
         bound_kw_form = KeywordForm(request.GET)
         
         if bound_kw_form.is_valid():
             data = bound_kw_form.cleaned_data
-            posts = Publicacion.objects.filter (title__icontains = data['keyword'])
-            ctx = {'posts': posts}
+            posts = Publicacion.objects.filter (title__icontains = data['keyword']).order_by('-date_of_publication')
+            ctx = {'posts': posts, 'avatar': avatar_url}
             return render (request, 'app_blog/searchpost.html', ctx)
+        else:
+            errors = get_errors(bound_kw_form)
+            ctx = {'errors': errors, 'kw': bound_kw_form, 'avatar': avatar_url}
+            return render (request, 'app_blog/index.html', ctx)           
 
     else:
+        ctx = {'posts': posts, 'kw': kw_form, 'avatar': avatar_url}
         return render (request, 'app_blog/index.html', ctx)
 
 
-def read_post (request, post_post):
+def read_post (request, post_id):
+    avatar_url = get_avatar_url (request.user)
     try: 
-        post = Publicacion.objects.get(post = post_post)
-        ctx = {'post': post}
+        post = Publicacion.objects.get(id = post_id)
+        ctx = {'post': post, 'avatar': avatar_url}
 
         return render (request, 'app_blog/readpost.html', ctx)
     
     except:
-        return render(request, 'app_blog/index.html')
+        return redirect ('index')
 
 
+@login_required
 def post (request):
-
+    avatar_url = get_avatar_url (request.user)
     if request.method == 'POST':
-        new_post_form = PubliForm (request.POST)
+        new_post_form = PubliForm (request.POST, request.FILES)
         
         if new_post_form.is_valid():
             data = new_post_form.cleaned_data
-            new_post = Publicacion (data['title'],
-                                    data['subtitle'],
-                                    datetime.today(),
-                                    data['author'],
-                                    data['post'])
+            new_post = Publicacion (title = data['title'],
+                                    subtitle = data['subtitle'],
+                                    date_of_publication = datetime.now(),
+                                    author = request.user.username,
+                                    post = data['post'],
+                                    image = request.FILES ['image']
+                                    )
 
             new_post.save()
+        else:
+            errors = get_errors(new_post_form)
+            new_post_form = PubliForm (request.POST, request.FILES) 
+            ctx = {'errors': errors, 'postform': new_post_form, 'date': datetime.now()}
+            return render (request, 'app_blog/post.html', ctx)
 
-        return render (request, 'app_blog/index.html')  
+        return redirect ('index')  
 
     else:
         post_form = PubliForm()
-        return render (request, 'app_blog/post.html',{'postform': post_form, 'date': datetime.today()})   
+        ctx = {'postform': post_form, 'date': datetime.now(), 'avatar': avatar_url}
+        return render (request, 'app_blog/post.html', ctx)   
 
+
+class DeletePost (LoginRequiredMixin, DeleteView):
+    model = Publicacion
+    success_url = '../../app_users/my_profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        avatar_url = get_avatar_url (self.request.user)
+        context['avatar'] = avatar_url
+
+        return context
+
+
+@login_required
+def edit_post (request, post_id):
+    avatar_url = get_avatar_url (request.user)
+    post_to_edit = Publicacion.objects.get (id = post_id)
+    post_to_edit_dict = post_to_edit.__dict__
+    bound_edit_form = PubliForm (post_to_edit_dict)
+    previous_cover = post_to_edit.image.url
+
+
+    if request.method == 'POST':
+        new_bound_edit_form = PubliForm (request.POST, request.FILES)
+        
+        if new_bound_edit_form.is_valid():
+            data = new_bound_edit_form.cleaned_data
+
+            post_to_edit.title = data['title']
+            post_to_edit.subtitle = data['subtitle']
+            post_to_edit.post = data['post']
+            post_to_edit.date_of_publication = datetime.now()
+            post_to_edit.image = request.FILES['image']
+
+            post_to_edit.save()
+        else:
+            errors = get_errors(new_bound_edit_form)
+            bound_edit_form = PubliForm (request.POST, request.FILES) 
+            ctx = {'errors': errors, 'form': bound_edit_form, 'date': datetime.now()}
+            return render (request, 'app_blog/editpost.html', ctx)
+
+        return redirect ('my_profile') 
+
+    else:
+        ctx = {'form': bound_edit_form, 'date': datetime.now(), 'avatar': avatar_url, 'previous_cover': previous_cover}
+        return render (request, 'app_blog/editpost.html', ctx)   
+
+
+def about_the_author (request):
+    avatar_url = get_avatar_url (request.user)
+    return render (request, 'app_blog/about.html', {'avatar': avatar_url})

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static "app_users/assets/img/peephole.jpg" %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1 style="font-size: 45px">Knock knock</h1>
+                    <span class="subheading">Who is it?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% if not errors %}
+                <p>Reveal yourself and you shall enter!</p>
+                {% endif %}
+                <div class="my-5">
+                    
+                    {% if errors %}
+                        <div class="class alert-danger" role="alert">
+                            {% for error in errors %}
+                                    <P> {{error}}</P>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                </div>
+                                    
+                    <form action="" method="post" >
+                        {% csrf_token %}
+                        
+                        <div class="form-floating">
+                            {% for field in userform  %}
+                                <ul>{{field.label_tag}}</ul>
+                                <ul>{{field}}</ul>  
+                            {% endfor %}
+                        </div>
+
+                        <!-- Submit Button-->                        
+                        <input class="btn btn-primary text-uppercase" id="submitButton" type="submit" value="Sign in">
+
+                    </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock main_content %}
+
+

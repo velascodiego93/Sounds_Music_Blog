@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static 'assets/img/dsotm.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>SOUNDS</h1>
+                    <span class="subheading">If it can be listened to, it can be talked about</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            
+            <div class="post-preview">
+                <div class="class alert-danger" role="alert">
+                    <form style="align-items: center;" method="post">
+                        {% csrf_token %}
+                            <p style="align-items: center;"> Do you really want to delete your profile? All the information about your profile will be eliminated. Remember this is irreversible.</p>
+                            
+                            <input class="btn btn-danger" style="padding: 0.5rem 0.75rem;"type="submit" value="CONFIRM">
+                            <a class="btn btn-success" style="padding: 0.5rem 0.75rem; margin-left: 50px;" href="{% url 'my_profile' %}">CANCEL</a>
+                            
+                    </form>
+                </div>
+                        
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+

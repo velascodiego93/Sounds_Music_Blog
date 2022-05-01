@@ -1,0 +1,51 @@
+<!-- Navigation-->
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <ul class="list-unstyled" style="margin: 0;">
+            <li><a class="navbar-brand" href="{% url 'index' %}">SOUNDS</a></li>
+            {% if request.user.is_authenticated %}
+                <h6 class="navbar-brand" style=" font-size: 0.75rem; font-style: italic; font-weight: 500; margin: 0;">@{{request.user}}</h6>
+            {% endif %}
+
+        </ul>  
+        <style>
+            img {
+                border-radius: 50%;
+                margin-bottom: 0px;
+            }
+            </style>
+        {% if request.user.is_authenticated %}
+                {% if avatar %}
+                <a href="{% url 'my_profile' %}"><img class="img-circle" src="{{ avatar }}" width="75px"></a>
+                {% else %}
+                    <img src="{% static "app_users/assets/img/default.jpeg" %}" width="55px">
+                {% endif %}
+
+        {% endif %}
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}">Home</a></li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'post' %}">Create Post</a></li>
+                {% endif %}
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'create_user' %}">Create User</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'subscribe' %}">Subscribe</a></li>
+                {% endif %}
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Sign in</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'my_profile' %}">My Profile</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'new_conversation' %}">Chat</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'logout' %}">Sign out</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

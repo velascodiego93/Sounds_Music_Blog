@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+<!-- Page Header-->
+
+{% block header %}
+
+<header class="masthead" style="background-image: url('{% static 'assets/img/dsotm.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>SOUNDS</h1>
+                    <span class="subheading">About the author</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock header %}
+
+
+<!-- Main Content-->
+
+{% block main_content %}
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            
+            <div class="post-preview">
+                <div class="row" style="align-items: center">
+                    <div class="col-8">
+                        
+                        <h2 class="post-title">Diego Velasco</h2>
+                        <h3 style="font-style: italic;" class="post-subtitle">About the author</h3>
+                        
+                    </div>     
+                    <div class="col-4">
+                            <img src="{% static "assets/img/dvm.jpg" %}" width="100px"> 
+                    </div>     
+                </div>
+                <br>         
+
+                <div class="row" style="align-items: center; font-size: 18px;">
+                <p style="text-align: justify;">
+
+                    Diego Velasco is a 29-year-old Civil Engineer from Montevideo, Uruguay. Though a frustrated guitarist, he is
+                    nonetheless passionate about music and constantly trying to discover new artists, genres, podcasts, books, and 
+                    pretty much almost everything which may lead to any music previously undiscovered. Be it working at the office, 
+                    commuting, excercising, or simply kicking back to the sound of a vinyl rolling around the turntable, music takes 
+                    up a big part of his life, which is why the idea of a music blog in which the users could discuss anything and
+                    everything on the subject seemed only natural. Personal favourites include Indie, Shoegaze, Dream Pop, Trip Hop,
+                    Rap, Psychedelic and Progressive Rock, but any topic is up for discussion. As the the logo states, if it can be 
+                    listened to, it can be talked about!
+                </p>
+                </div> 
+                    <style>
+                        img {
+                            border-radius: 50%;
+                            margin-bottom: 0px;
+                        }
+                    </style>
+                
+                <p class="post-meta">
+                by Diego Velasco
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+
