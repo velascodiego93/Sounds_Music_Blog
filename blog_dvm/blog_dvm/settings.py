@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_blog',
-    'app_users',
+    'pages',
+    'accounts',
     'django_summernote',
-    'app_messages'
+    'messages',
 ]
 
 MIDDLEWARE = [
@@ -62,10 +62,11 @@ ROOT_URLCONF = 'blog_dvm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r'.\app_blog\templates\app_blog',
-                r'.\app_users\templates\app_users', 
-                r'.\app_messages\templates\app_messages', 
-                r'.\blog_dvm\templates\components'
+        'DIRS': [r'./pages/templates/pages',
+                r'./accounts/templates/accounts', 
+                r'./messages/templates/messages', 
+                r'./blog_dvm/templates/components',
+                r'./blog_dvm/templates',
                 ],
         'APP_DIRS': True,
         'OPTIONS': {

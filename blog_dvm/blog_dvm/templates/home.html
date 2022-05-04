@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html style="height: 100%;" lang="en">
+
+    {% include 'head.html' %}
+    <body style="height: 100%;">
+        
+        
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('{% static 'assets/img/dsotm.jpg' %}'); height: 100%;">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1><a style="color: white;" href="{% url 'index' %}">SOUNDS</a></h1>
+                            <span class="subheading">If it can be listened to, it can be talked about</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>      
+    </body>
+        
+        {% comment %} <!-- Footer and Core JS-->
+        {% include 'footer.html' %}
+        {% include 'corejs.html' %} {% endcomment %}
+        
+
+</html>
+
+
+
+
+
+

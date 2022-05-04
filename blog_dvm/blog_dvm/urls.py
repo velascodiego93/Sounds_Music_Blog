@@ -17,13 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from blog_dvm.views import home, about_the_author
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app_blog/', include('app_blog.urls')),
-    path('app_users/', include('app_users.urls')),
-    path('app_messages/', include('app_messages.urls')),
+    path('pages/', include('pages.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('messages/', include('messages.urls')),
     path('summernote/', include('django_summernote.urls')),
+    path('',home, name = 'home'),
+    path('about/',about_the_author, name = 'about')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
