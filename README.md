@@ -12,9 +12,8 @@ El proyecto consiste en la creacion de un blog, utilizando el framework de desar
 3. Abrir una terminal y ejecutar un entorno virtual 
 4. Instalar paquetes de django y summernote (ver link)
 5. Realizar las migraciones de los modelos mediante el comando 'python manage.py migrate'
-  5.1. UPDATE: DADO QUE SE ELIMINÓ LA APP LLAMADA app_blog Y SE CREÓ LA APP accounts, ADEMÁS DE REALIZAR LAS MIGRACIONES, SE DEBE CORRER EL COMANDO python manage.py migrate --run-syncdb PARA CREAR LAS TABLAS DE LA APP accounts.
-7. Correr un servidor mediante el comando 'python manage.py runserver'
-9. Utilizar la aplicación libremente
+6. Correr un servidor mediante el comando 'python manage.py runserver'
+7. Utilizar la aplicación libremente
 
 ### DEPENDENCIAS UTILIZADAS
 - django
