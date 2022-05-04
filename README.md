@@ -1,6 +1,7 @@
 # Sounds - Music blog
 Trabajo final de curso de python en CoderHouse
-Link a video mostrando funcionamiento de página: https://drive.google.com/file/d/12pV8F_w606QaZglMNX0q-P4pEaKQ6Shj/view
+- Link a video mostrando funcionamiento de página: https://drive.google.com/file/d/12pV8F_w606QaZglMNX0q-P4pEaKQ6Shj/view
+- LINK ACTUALIZADO A VIDEO INCORPORANDO COMENTARIOS PARA REENTREGA: https://drive.google.com/file/d/1YpP0yf6hwrI0fY1-hfbyFvbIA7KVhtgU/view
 
 ### DESCRIPCION DE PROYECTO
 El proyecto consiste en la creacion de un blog, utilizando el framework de desarrollo web en python: Django. Se optó por realizar un blog enfocado a la creación e intercambio de contenido relacionado con la música y sonido. Todo contenido de esta índole es válido, lo que se desprende de la frase de cabecera del blog: "Si se puede escuchar, se puede debatir".
