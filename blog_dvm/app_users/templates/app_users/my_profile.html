@@ -7,7 +7,7 @@
 
 {% block header %}
 
-<header class="masthead" style="background-image: url('{% static "app_users/assets/img/studio.jpg" %}')">
+<header class="masthead" style="background-image: url('{% static "assets/img/studio.jpg" %}')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -43,7 +43,7 @@
                         {% if avatar %}
                             <img class="img-circle" src="{{ avatar }}" width="200px">
                         {% else %}
-                            <img src="{% static "app_users/assets/img/default.jpeg" %}" width="110px" style="margin-bottom: 25px;">
+                            <img src="{% static "assets/img/default.jpeg" %}" width="110px" style="margin-bottom: 25px;">
                         {% endif %}
 
                     {% endif %}                   
@@ -86,7 +86,7 @@
                                             {% if avatar_url %}
                                             <img class="img-circle" src="{{ avatar_url }}" width="100px">
                                             {% else %}
-                                            <img src="{% static "app_users/assets/img/default.jpeg" %}" width="100px" style="margin-bottom: 25px;">
+                                            <img src="{% static "assets/img/default.jpeg" %}" width="100px" style="margin-bottom: 25px;">
                                             {% endif %}                                            
                                         </div>  
                                         <div class="col-8" style="align-items: center;">
