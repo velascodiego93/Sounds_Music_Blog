@@ -168,7 +168,6 @@ def update_user (request):
                     user.set_password(user_data.get('password1'))
                     user.save()
                 except Exception as exc:
-                    print (exc)
                     if request.user.is_superuser:
                         user_edit_form = UserWithAvatarEditForm (request.POST, request.FILES)
                     else:                    
